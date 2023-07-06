@@ -15,43 +15,29 @@ platform :ios do
       timeout: 3600
     )
 
-    if @is_split_cer
-      import_certificate(
-        certificate_path:
-          if !ENV['P12_KEY_PATH'].empty?
-            ENV['P12_KEY_PATH']
-          else
-            'ios-build-key.p12'
-          end,
-        certificate_password: ENV['CERTIFICATE_PASSWORD'],
-        keychain_name: 'ios-build.keychain',
-        keychain_password: keychain_password,
-        log_output: true
-      )
-      import_certificate(
-        certificate_path:
-          if !ENV['P12_CER_PATH'].empty?
-            ENV['P12_CER_PATH']
-          else
-            'ios-build-key.cer'
-          end,
-        certificate_password: ENV['CERTIFICATE_PASSWORD'],
-        keychain_name: 'ios-build.keychain',
-        keychain_password: keychain_password,
-        log_output: true
-      )
-    else
-      import_certificate(
-        certificate_path:
-          !ENV['P12_PATH'].empty? ? ENV['P12_PATH'] : 'ios-build.p12',
-        certificate_password: ENV['CERTIFICATE_PASSWORD'],
-        keychain_name: 'ios-build.keychain',
-        keychain_password: keychain_password,
-        log_output: true
-      )
-    end
+    # Import main app certificates
+    import_certificate(
+      certificate_path: ENV['P12_PATH'] || 'ios-build.p12',
+      certificate_password: ENV['CERTIFICATE_PASSWORD'],
+      keychain_name: 'ios-build.keychain',
+      keychain_password: keychain_password,
+      log_output: true
+    )
 
+    # Import app extension certificates
+    import_certificate(
+      certificate_path: ENV['EXTENSION_P12_PATH'] || 'ios-build-extension.p12',
+      certificate_password: ENV['EXTENSION_CERTIFICATE_PASSWORD'],
+      keychain_name: 'ios-build.keychain',
+      keychain_password: keychain_password,
+      log_output: true
+    )
+
+    # Install main app provisioning profiles
     @profiles.each { |profile| install_provisioning_profile(path: profile) }
+
+    # Install app extension provisioning profiles
+    @extension_profiles.each { |profile| install_provisioning_profile(path: profile) }
 
     update_targets = nil
     if !ENV['UPDATE_TARGETS'].empty?
@@ -65,13 +51,13 @@ platform :ios do
       path: ENV['PROJECT_PATH'],
       code_sign_identity: ENV['CODE_SIGNING_IDENTITY'],
       targets: update_targets,
-      entitlements_file_path:
-        if !ENV['ENTITLMENTS_FILE_PATH'].empty?
-          ENV['ENTITLMENTS_FILE_PATH']
-        else
-          nil
-        end
+      entitlements_file_path: ENV['ENTITLEMENTS_FILE_PATH']
     )
+
+    # Other actions and commands for exporting the IPA...
+  end
+end
+
 
     if @profiles.length == 1
       update_project_provisioning(
