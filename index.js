@@ -33,12 +33,18 @@ async function run() {
     process.env.P12_BASE64 = core.getInput("p12-base64");
     process.env.P12_KEY_BASE64 = core.getInput("p12-key-base64");
     process.env.P12_CER_BASE64 = core.getInput("p12-cer-base64");
+    process.env.EXTENSION_P12_BASE64 = core.getInput("extension-p12-base64");
+    process.env.EXTENSION_P12_KEY_BASE64 = core.getInput("extension-p12-key-base64");
+    process.env.EXTENSION_P12_CER_BASE64 = core.getInput("extension-p12-cer-base64");
     process.env.MOBILEPROVISION_BASE64 = core.getInput(
       "mobileprovision-base64"
     );
     process.env.P12_PATH = core.getInput("p12-path");
     process.env.P12_KEY_PATH = core.getInput("p12-key-path");
     process.env.P12_CER_PATH = core.getInput("p12-cer-path");
+    process.env.EXTENSION_P12_PATH = core.getInput("extension-p12-path");
+    process.env.EXTENSION_P12_KEY_PATH = core.getInput("extension-p12-key-path");
+    process.env.EXTENSION_P12_CER_PATH = core.getInput("extension-p12-cer-path");
     process.env.MOBILEPROVISION_PATH = core.getInput("mobileprovision-path");
     process.env.PROJECT_PATH = core.getInput("project-path");
     process.env.CODE_SIGNING_IDENTITY = core.getInput("code-signing-identity");
