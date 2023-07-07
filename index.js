@@ -39,6 +39,9 @@ async function run() {
     process.env.MOBILEPROVISION_BASE64 = core.getInput(
       "mobileprovision-base64"
     );
+    process.env.EXTENSION_MOBILEPROVISION_BASE64 = core.getInput(
+      "extension-mobileprovision-base64"
+    );
     process.env.P12_PATH = core.getInput("p12-path");
     process.env.P12_KEY_PATH = core.getInput("p12-key-path");
     process.env.P12_CER_PATH = core.getInput("p12-cer-path");
@@ -46,6 +49,7 @@ async function run() {
     process.env.EXTENSION_P12_KEY_PATH = core.getInput("extension-p12-key-path");
     process.env.EXTENSION_P12_CER_PATH = core.getInput("extension-p12-cer-path");
     process.env.MOBILEPROVISION_PATH = core.getInput("mobileprovision-path");
+    process.env.EXTENSION_MOBILEPROVISION_PATH = core.getInput("extension-mobileprovision-path");
     process.env.PROJECT_PATH = core.getInput("project-path");
     process.env.CODE_SIGNING_IDENTITY = core.getInput("code-signing-identity");
     process.env.TEAM_ID = core.getInput("team-id");
@@ -53,6 +57,7 @@ async function run() {
     process.env.EXPORT_METHOD = core.getInput("export-method");
     process.env.CONFIGURATION = core.getInput("configuration");
     process.env.CERTIFICATE_PASSWORD = core.getInput("certificate-password");
+    process.env.EXTENSION_CERTIFICATE_PASSWORD = core.getInput("extension-certificate-password");
     process.env.OUTPUT_PATH = core.getInput("output-path");
     process.env.SCHEME = core.getInput("scheme");
     process.env.UPDATE_TARGETS = core.getInput("update-targets");
