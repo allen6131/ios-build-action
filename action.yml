@@ -26,28 +26,28 @@ inputs:
     description: "mobileprovision path"
     required: false
   extension-p12-key-base64:
-    description: "Base64 encoded p12 key"
+    description: "Extension Base64 encoded p12 key"
     required: false
   extension-p12-cer-base64:
-    description: "Base64 encoded certificate for the p12 key"
+    description: "Extension Base64 encoded certificate for the p12 key"
     required: false
   extension-p12-base64:
-    description: "Base64 encoded p12 file (key + cert)"
+    description: "Extension Base64 encoded p12 file (key + cert)"
     required: false
   extension-mobileprovision-base64:
-    description: "Base64 encoded mobileprovision file"
+    description: "Extension Base64 encoded mobileprovision file"
     required: false
   extension-p12-key-path:
-    description: "p12 key path"
+    description: "Extension p12 key path"
     required: false
   extension-p12-cer-path:
-    description: "Certificate path for the p12 key"
+    description: "Extension Certificate path for the p12 key"
     required: false
   extension-p12-path:
-    description: "p12 path (key + cert)"
+    description: "Extension p12 path (key + cert)"
     required: false
   extension-mobileprovision-path:
-    description: "mobileprovision path"
+    description: "Extension mobileprovision path"
     required: false
   project-path:
     description: "Project path"
@@ -71,6 +71,10 @@ inputs:
     required: false
     default: "Release"
   certificate-password:
+    description: "Certificate password"
+    required: false
+    default: ""
+  extension-certificate-password:
     description: "Certificate password"
     required: false
     default: ""

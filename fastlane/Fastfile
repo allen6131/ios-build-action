@@ -26,7 +26,7 @@ platform :ios do
 
     # Import app extension certificates
     import_certificate(
-      certificate_path: ENV['EXTENSION_P12_PATH'] || 'ios-build-extension.p12',
+      certificate_path: ENV['EXTENSION_P12_PATH'] || 'extension-ios-build.p12',
       certificate_password: ENV['EXTENSION_CERTIFICATE_PASSWORD'],
       keychain_name: 'ios-build.keychain',
       keychain_password: keychain_password,
@@ -88,6 +88,41 @@ def decode_file
     end
   else
     ENV['MOBILEPROVISION_PATH'].split(/\R/).each.with_index(1) do |profile, index|
+      @profiles.push(profile)
+    end
+  end
+end
+
+def decode_file
+  @is_split_cer =
+    (!ENV['EXTENSION_P12_KEY_BASE64'].empty? && !ENV['EXTENSION_P12_CER_BASE64'].empty?) ||
+      (!ENV['EXTENSION_P12_KEY_PATH'].empty? && !ENV['EXTENSION_P12_CER_PATH'].empty?)
+  if ENV['EXTENSION_P12_PATH'].empty? &&
+       (ENV['EXTENSION_P12_KEY_PATH'].empty? || ENV['EXTENSION_P12_CER_PATH'].empty?)
+    if @is_split_cer
+      File.write(
+        '../ios-build-key.p12',
+        Base64.decode64(ENV['EXTENSION_P12_KEY_BASE64'])
+      )
+      File.write(
+        '../ios-build-key.cer',
+        Base64.decode64(ENV['EXTENSION_P12_CER_BASE64'])
+      )
+    else
+      File.write('../extension-ios-build.p12', Base64.decode64(ENV['EXTENSION_P12_BASE64']))
+    end
+  end
+
+  @profiles = []
+  if ENV['EXTENSION_MOBILEPROVISION_PATH'].empty?
+    ENV['EXTENSION_MOBILEPROVISION_BASE64'].split(/\R/).each.with_index(1) do |profile, index|
+      filename = "extension-ios-build-#{index}.mobileprovision"
+      puts "creating ../#{filename}"
+      File.write("../#{filename}", Base64.decode64(profile))
+      @profiles.push(filename)
+    end
+  else
+    ENV['EXTENSION_MOBILEPROVISION_PATH'].split(/\R/).each.with_index(1) do |profile, index|
       @profiles.push(profile)
     end
   end
